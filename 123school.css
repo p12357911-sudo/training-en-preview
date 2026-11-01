@@ -526,7 +526,7 @@ table { max-width: 100%; }
   border-radius: 6px;
   background-color: #F2F7FA;
   padding: 18px 24px 14px 24px;
-  margin: 8px 0 28px 0;
+  margin: 34px 0 28px 0;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12pt;
   line-height: 1.6;
@@ -549,6 +549,6 @@ table { max-width: 100%; }
   border-top: 1px solid #003A5C;
 }
 @media (max-width: 600px) {
-  .kb-intro { padding: 14px 16px 10px 16px; margin: 6px 0 22px 0; }
+  .kb-intro { padding: 14px 16px 10px 16px; margin: 34px 0 22px 0; }
   .kb-intro h2 { font-size: 17pt; }
 }
