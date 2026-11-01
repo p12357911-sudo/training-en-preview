@@ -252,10 +252,18 @@ function kbBeoordeelBox(ingevuld, box) {
   return r;
 }
 
+/* TIJDELIJKE TWEAK (alleen EN-pilot): staat er een "=" in het antwoord ("8x2.5=20", "x = 20", "8 x 2,5 = 20 g"), dan telt alleen
+   wat na het laatste "=" staat (getrimd). Het deel ervoor (de berekening) wordt dus niet beoordeeld; "20=8x2.5" wordt daarom
+   als "8x2.5" gelezen en blijft fout bij een verwacht antwoord 20. Alleen in het lokale getallen-pad; het AI-pad krijgt de volledige tekst. */
+function kbNaLaatsteIs(ingevuld) {
+  var t = String(ingevuld), k = t.lastIndexOf('=');
+  return k === -1 ? t : t.slice(k + 1).trim();
+}
+
 /* Vergelijkt wat de leerling typte met een verwacht getal v = kbGetal(...): komma of punt, eenheid mag ontbreken,
    schrijfwijze van machten van 10 maakt niet uit. Zelfde waarde maar andere afronding of eenheid = 'half'. */
 function kbVergelijkGetal(ingevuld, v) {
-  var i = kbGetal(String(ingevuld).replace(/^\s*[A-Za-z\u0370-\u03ff][A-Za-z0-9_]{0,3}\s*=\s*/, ''));
+  var i = kbGetal(kbNaLaatsteIs(ingevuld).replace(/^\s*[A-Za-z\u0370-\u03ff][A-Za-z0-9_]{0,3}\s*=\s*/, ''));
   if (i && i.getal === v.getal && (i.eenheid === '' || v.eenheid === '' || i.eenheid.replace(/x/g, '') === v.eenheid.replace(/x/g, ''))) { return { oordeel: 'goed', hint: '', numeriek: true }; }
   if (i && i.getal === v.getal) { return { oordeel: 'half', hint: T('kb.hint_eenheid'), numeriek: true }; }
   if (i && i.getal !== v.getal && Math.abs(kbWaarde(i.getal) - kbWaarde(v.getal)) < 1e-12 * Math.max(1, Math.abs(kbWaarde(v.getal))) && v.getal.indexOf('/') === -1) {

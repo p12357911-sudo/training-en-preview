@@ -96,6 +96,53 @@ with sync_playwright() as p:
         check(f'[nl] kbNormaal("{tekst}") = {verwacht} (ongewijzigd gedrag)', r == verwacht, r)
     ctx.close()
 
+    # 2b. Tijdelijke tweak: bij een "=" telt alleen wat na het laatste "=" staat (kbNaLaatsteIs in school.js)
+    GOED = ('Correct', 'Goed'); FOUT = ('Not correct', 'Niet goed')
+    for taal, vraag, gevallen in [
+        ('en', 'x / 8 = 2.5', [('20', GOED), ('8x2.5=20', GOED), ('8 x 2.5 = 20', GOED), ('8*2.5=20', GOED), ('8 \u00d7 2.5 = 20', GOED), ('x = 20', GOED), ('x=20', GOED),
+                               ('2.5 x 8 = 20.0', ('Nearly',)), ('8x2.5=21', FOUT), ('20=8x2.5', FOUT), ('8x2.5=', FOUT), ('8x2.5', FOUT), ('=', FOUT)]),
+        ('nl', 'x / 8 = 2,5', [('20', GOED), ('8x2,5=20', GOED), ('8 \u00d7 2,5 = 20', GOED), ('8 * 2,5 = 20', GOED), ('x = 20', GOED), ('8x2,5=21', FOUT), ('20=8x2,5', FOUT)])]:
+        ctx, page, errs, vz = open_pagina(b, base, 'rv3h-significante-cijfers-stappen-KB', taal, mock='fout')
+        for txt, want in gevallen:
+            try:
+                uit, it = antwoord_en_controleer(page, vraag, txt)
+            except AssertionError as e:
+                check(f'[{taal}] vraag {vraag!r} gevonden', False, e); break
+            check(f'[{taal}] "{txt}" bij {vraag} -> {want[0]}', any(m in uit for m in want), uit)
+        check(f'[{taal}] "=": geen JS-fouten', not errs, errs); ctx.close()
+    ctx, page, errs, vz = open_pagina(b, base, 'rv3h-significante-cijfers-stappen-KB', 'en', mock='fout')
+    for txt, want in [('rho = 2.70 g/cm3', 'goed'), ('m / V = 2.70 g/cm3', 'goed'), ('2.70 g/cm3', 'goed'), ('2.70 g', 'goed'), ('3.70 g/cm3', 'fout')]:
+        r = page.evaluate('(t)=>{var v=kbGetal("2.70 g/cm3"); return kbVergelijkGetal(t, v).oordeel;}', txt)
+        r = {'goed': 'goed', 'half': 'half', 'fout': 'fout'}[r]
+        check(f'[en] kbVergelijkGetal("{txt}", 2.70 g/cm3) = {want}', r == want or (txt == '2.70 g' and r in ('goed', 'half')), r)
+    for txt, want in [('20', '20'), ('8x2.5=20', '20'), ('a = b = 20 g', '20 g'), ('x = ', ''), ('abc', 'abc'), ('20=8x2.5', '8x2.5')]:
+        r = page.evaluate('(t)=>kbNaLaatsteIs(t)', txt)
+        check(f'[en] kbNaLaatsteIs("{txt}") = "{want}"', r == want, r)
+    ctx.close()
+
+    # 2c. Kader om titel en uitleg op KB-pagina's (NL en EN, desktop en 390 px)
+    for pg in ('sk3t-stoffen-KB', 'rv3h-significante-cijfers-stappen-KB'):
+        for taal in ('en', 'nl'):
+            for naam, size in (('390', {'width': 390, 'height': 800}), ('1280', {'width': 1280, 'height': 900})):
+                ctx, page, errs, _ = open_pagina(b, base, pg, taal, size)
+                page.wait_for_timeout(500)
+                d = page.evaluate("""() => { const k = document.getElementById('kb-intro'); if (!k) return null; const cs = getComputedStyle(k), h = getComputedStyle(k.querySelector('h2')), p = k.querySelectorAll('p'), pv = document.getElementById('ai-privacy');
+                  const r = k.getBoundingClientRect(); const vk = document.querySelector('.kb-item, button.vraag-knop').getBoundingClientRect();
+                  return {border: cs.borderTopWidth, kleur: cs.borderTopColor, bg: cs.backgroundColor, font: cs.fontFamily.split(',')[0], h2: h.color, h2font: h.fontFamily.split(',')[0], pcol: [...p].map(x=>getComputedStyle(x).color),
+                          psize: [...p].map(x=>parseFloat(getComputedStyle(x).fontSize)), n: p.length, privacy: !!pv && k.contains(pv), pvbold: pv ? getComputedStyle(pv).fontWeight : '', pad: cs.paddingLeft,
+                          voorVragen: r.bottom <= vk.top, breed: document.documentElement.scrollWidth - document.documentElement.clientWidth, rechts: r.right <= innerWidth, links: r.left >= 0}; }""")
+                lab = f'[{taal} {naam}] {pg}'
+                check(f'{lab}: intro-kader aanwezig', d is not None)
+                if d:
+                    check(f'{lab}: kader 1,3 pt (browser rondt af naar 1 px) #003A5C', d['border'] in ('1px', '1.75px') and d['kleur'] == 'rgb(0, 58, 92)', d)
+                    check(f'{lab}: Arial, tekst #111111, kop #003A5C', d['font'] == 'Arial' and d['h2font'] == 'Arial' and d['h2'] == 'rgb(0, 58, 92)' and all(c == 'rgb(17, 17, 17)' for c in d['pcol']), d)
+                    check(f'{lab}: tekst 12 pt (16 px)', all(abs(s - 16) < 0.1 for s in d['psize']), d['psize'])
+                    check(f'{lab}: privacyregel apart, in het kader, vet', d['privacy'] and int(d['pvbold']) >= 700, d)
+                    check(f'{lab}: kader staat boven de vragen en past in het scherm', d['voorVragen'] and d['rechts'] and d['links'] and d['breed'] <= 0, d)
+                if pg.startswith('rv3h') and taal == 'en':
+                    page.screenshot(path=f'{SCREENS}/intro_kader_{taal}_{naam}.png')
+                check(f'{lab}: kader geen JS-fouten', not errs, errs); ctx.close()
+
     # 3. Tekstvraag lokaal (zonder AI) en AI-aanroep: taal van het verzoek en weergave van de EN-tip
     for taal, vraag, juist in [('en', 'Which unit goes with density', 'g/cm3'), ('nl', 'Welke eenheid hoort bij dichtheid', 'g/cm3')]:
         ctx, page, errs, vz = open_pagina(b, base, 'sk3t-stoffen-KB', taal)

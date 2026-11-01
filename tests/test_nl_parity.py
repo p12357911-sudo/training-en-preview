@@ -4,7 +4,7 @@ from common import *
 
 def norm(s): return re.sub(r'\s+', ' ', s or '').strip()
 
-JS_KB = """() => { const o = {title: document.title, h2: document.querySelector('h2').innerHTML.trim(), intro: [...document.querySelectorAll('.w3-container > p')].filter(p=>!p.closest('.antwoord-box') && !p.closest('footer')).map(p=>p.innerHTML.trim()),
+JS_KB = """() => { const o = {title: document.title, h2: document.querySelector('h2').innerHTML.trim(), intro: [[...document.querySelectorAll('.w3-container p')].filter(p=>!p.closest('.antwoord-box') && !p.closest('footer')).map(p=>p.textContent.replace(/\\s+/g,' ').trim()).join(' ')],
   q: [...document.querySelectorAll('button.vraag-knop')].map(b => { const w=b.parentNode; const i=w.querySelector('input'); const box=w.querySelector('.antwoord-box');
    return {q:b.innerHTML.trim(), aria:i.getAttribute('aria-label'), ph:i.getAttribute('placeholder'), box: box.innerHTML.replace(/\\s+/g,' ').trim(), goed: box.getAttribute('data-goed'), cls: box.className, eind: !!box.querySelector('.eindantwoord')}; }),
   zweef: (document.getElementById('zweefknop')||{}).textContent, opn: ([...document.querySelectorAll('a.knop-blauw')].map(a=>a.textContent.trim())), nav:[...document.querySelectorAll('.oefen-wissel a')].filter(a=>!/rv3h/.test(a.getAttribute('href'))).map(a=>a.textContent+'|'+a.getAttribute('href')+'|'+a.getAttribute('aria-current'))};

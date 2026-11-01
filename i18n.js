@@ -121,7 +121,7 @@
   /* ---------- KB-pagina: precies dezelfde opbouw als de handgeschreven pagina's, zodat school.js ongewijzigd werkt ---------- */
   function bouwKB(d) {
     var c = document.getElementById('inhoud');
-    var h = '<h2>' + d.heading + '</h2>' + (d.intro || []).map(function (p) { return '<p>' + p + '</p>'; }).join('');
+    var h = '<div class="kb-intro" id="kb-intro"><h2>' + d.heading + '</h2>' + (d.intro || []).map(function (p) { return '<p>' + p + '</p>'; }).join('') + '</div>';
     d.questions.forEach(function (q, i) {
       var id = 'Demo' + (i + 1);
       var label = (t('kb.jouw_antwoord_op') + ' ' + alsTekst(q.q)).replace(/"/g, '&quot;');

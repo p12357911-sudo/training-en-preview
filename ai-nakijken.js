@@ -85,11 +85,19 @@
     var vergelijk = document.getElementById('ai-vergelijk');
     if (vergelijk) { vergelijk.parentNode.removeChild(vergelijk); }
     var intro = document.getElementById('ai-intro');
-    if (intro) { intro.hidden = false; return; }
+    if (intro) { intro.hidden = false; var pv = document.getElementById('ai-privacy'); if (pv) { pv.hidden = false; } return; }
+    var tx = function (k, nl) { return window.i18n ? window.i18n.t(k) : nl; };
     intro = document.createElement('p');
     intro.id = 'ai-intro';
-    intro.textContent = window.i18n ? window.i18n.t('ai.intro') : 'Typ je antwoorden en klik op "Controleer antwoorden". Antwoorden in je eigen woorden worden met AI nagekeken: je krijgt dan een tip en mag het nog een keer proberen. Typ nooit je naam of andere persoonlijke gegevens: je antwoord wordt door een AI-dienst nagekeken.';
+    intro.textContent = tx('ai.intro', 'Typ je antwoorden en klik op "Controleer antwoorden". Antwoorden in je eigen woorden worden met AI nagekeken: je krijgt dan een tip en mag het nog een keer proberen.');
+    var privacy = document.createElement('p');
+    privacy.id = 'ai-privacy';
+    privacy.className = 'kb-privacy';
+    privacy.textContent = tx('ai.privacy', 'Typ nooit je naam of andere persoonlijke gegevens: je antwoord wordt door een AI-dienst nagekeken.');
+    var kader = document.getElementById('kb-intro');
+    if (kader) { kader.appendChild(intro); kader.appendChild(privacy); return; }
     var eerste = vraagKnoppen[0].parentNode;
     eerste.parentNode.insertBefore(intro, eerste);
+    eerste.parentNode.insertBefore(privacy, eerste);
   });
 })();
