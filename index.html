@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>betermetpeter</title>
+    <link rel="icon" type="image/x-icon" href="123S.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="123school.css?v=20261101a">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="i18n.js?v=20261101a"></script>
+</head>
+<body class="home" id="myPage" data-pagina="index">
+<!-- Alle tekst komt uit lang/<taal>/ui.json (i18n.js): data-i18n="sleutel" -->
+<div id="proefversie" style="background:#ffc107;color:#111111;text-align:center;font:bold 16px/1.4 Arial,sans-serif;padding:6px 10px;position:relative;z-index:1000" data-i18n="index.proef"></div>
+
+<div id="navbar"></div>
+
+<div class="jumbotron text-center">
+    <img class="w3-circle w3-image" src="peterpantinkerbell.png" alt="Peter Pan" width="20%" height="20%">
+    <h1 data-i18n="index.h1"></h1>
+    <p data-i18n="index.sub"></p>
+</div>
+
+<div>
+    <div id="myCarousel" class="carousel slide text-center" data-interval="false" data-i18n-attr="aria-label:index.tips_aria">
+        <div class="carousel-inner" role="listbox">
+            <div class="item active"><h4><span data-i18n="index.tip1"></span><br><span><i data-i18n="index.tip1_label"></i></span></h4></div>
+            <div class="item"><h4><span data-i18n="index.tip2"></span><br><span><i data-i18n="index.tip2_label"></i></span></h4></div>
+            <div class="item"><h4><span data-i18n="index.tip3"></span><br><span><i data-i18n="index.tip3_label"></i></span></h4></div>
+        </div>
+        <div><br>
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+        </div>
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span><span class="sr-only" data-i18n="index.tip_vorige"></span></a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span class="sr-only" data-i18n="index.tip_volgende"></span></a>
+    </div>
+</div>
+
+<div class="w3-container w3-padding-64 w3-center" id="chemie">
+    <h2 data-i18n="index.chemie_h"></h2>
+    <i class="fa fa-flask"></i>
+    <p data-i18n="index.chemie_p"></p>
+    <div class="w3-row"><br>
+        <div class="w3-half">
+            <div class="w3-container">
+                <h3 data-i18n="index.groep_basis"></h3>
+                <p data-i18n="index.groep_basis_leeftijd"></p>
+                <div class="w3-dropdown-hover">
+                    <button class="w3-button w3-black" data-i18n="index.onderwerpen"></button>
+                    <div class="w3-dropdown-content w3-bar-block w3-border">
+                        <a href="sk3t-stoffen-KB.html" class="w3-bar-item w3-button" data-i18n="index.t_stoffen"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w3-half">
+            <div class="w3-container">
+                <h3 data-i18n="index.groep_jaar3"></h3>
+                <p data-i18n="index.groep_jaar3_leeftijd"></p>
+                <p data-i18n="index.binnenkort"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="w3-container w3-padding-64 w3-center w3-theme-l5" id="rekenen">
+    <h2 data-i18n="index.rekenen_h"></h2>
+    <i class="fa fa-calculator"></i>
+    <p data-i18n="index.rekenen_p"></p>
+    <div class="w3-row"><br>
+        <div class="w3-half">
+            <div class="w3-container">
+                <h3 data-i18n="index.groep_basis"></h3>
+                <p data-i18n="index.groep_basis_leeftijd"></p>
+                <p data-i18n="index.binnenkort"></p>
+            </div>
+        </div>
+        <div class="w3-half">
+            <div class="w3-container">
+                <h3 data-i18n="index.groep_jaar3"></h3>
+                <p data-i18n="index.groep_jaar3_leeftijd"></p>
+                <div class="w3-dropdown-hover">
+                    <button class="w3-button w3-black" data-i18n="index.onderwerpen"></button>
+                    <div class="w3-dropdown-content w3-bar-block w3-border">
+                        <a href="rv3h-significante-cijfers-stappen-KB.html" class="w3-bar-item w3-button" data-i18n="index.t_sigcijfers"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="w3-container w3-padding-64" id="contact">
+    <div class="w3-padding-16"><span class="w3-xlarge w3-border-teal w3-bottombar" data-i18n="index.contact_h"></span></div>
+    <p data-i18n="index.contact_p"></p>
+    <p><i class="fa fa-envelope-o w3-text-teal w3-xlarge"></i> <a href="mailto:info@betermetpeter.nl" style="text-decoration:underline">info@betermetpeter.nl</a></p>
+</div>
+
+<div id="voet"></div>
+<script src="school.js?v=20261101a"></script>
+</body>
+</html>
