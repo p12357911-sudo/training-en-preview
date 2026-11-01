@@ -516,3 +516,6 @@ table { max-width: 100%; }
 .taal-knop:hover { background-color: #EAF2F8; color: #003A5C; }
 .taal-knop[aria-pressed="true"] { background-color: #ffffff; color: #003A5C; font-weight: bold; }
 .taal-knop:focus-visible { outline: 3px solid #FFB300; outline-offset: 2px; }
+
+/* Jaar-aanduiding tussen haakjes (EN): kleiner dan de kop, minimaal 10 pt, zwart, niet grijs */
+.jaar-klein { font-size: 14px; color: #111111; }

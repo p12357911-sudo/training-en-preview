@@ -1,6 +1,6 @@
 # Niveaus: welk internationaal systeem gebruiken we?
 
-Doel: één benaming die op de Engelstalige site voor leerlingen overal ter wereld te begrijpen is. De NL-site noemt leerjaar 3, 4 en 5 per niveau (vmbo-tl/kader, havo, vwo). Op de EN-site staan **geen** niveau- of methodenamen in de leerlingtekst; alleen in de navigatie staat een leeftijds-/jaarbenaming.
+Doel: één benaming die op de Engelstalige site voor leerlingen overal ter wereld te begrijpen is. De NL-site noemt leerjaar 3, 4 en 5 per niveau (vmbo-tl/kader, havo, vwo). Op de EN-site staan **geen** niveau- of methodenamen in de leerlingtekst; alleen in de navigatie staat een leeftijdsbenaming met het UK-jaar en de US Grade tussen haakjes.
 
 ## Vergelijking per leerjaar (Nederlands leerjaar 1 begint rond 12 jaar)
 
@@ -23,9 +23,23 @@ De leeftijd per jaar is overal ongeveer gelijk (met een jaar speling per land of
 
 Bron: Nuffic (tabellen "level of diplomas"). Let op: dit zijn vergelijkingen van **diploma's** door Nuffic, geen officiële vakinhoudelijke gelijkwaardigheid per leerjaar. Voor de leerlingteksten gebruiken we daarom de leeftijd/het jaar, niet het niveau.
 
-## Aanbeveling
+## Aanbeveling (besloten door Peter, 1 november 2026)
 
-**Gebruik leeftijd + Year-nummer (UK/IGCSE-stijl), met de US Grade er eenmalig bij in de navigatie**, bijvoorbeeld "Year 10 · age 14–15 · US Grade 9". De niveaus (vmbo/havo/vwo) blijven op de NL-site, en op de EN-site worden ze niet genoemd.
+**Gebruik op de EN-site de leeftijd als hoofdlabel, met het UK-jaar en de US Grade in kleinere letters tussen haakjes erachter.** Een leeftijd snapt iedereen wereldwijd meteen. De niveaus (vmbo/havo/vwo) blijven op de NL-site en worden op de EN-site niet genoemd.
+
+Exacte labels in het menu van de EN-beginpagina (`lang/en/ui.json`, sleutels `index.groep_*`):
+
+| Leerjaar | Hoofdlabel (kop) | Klein, tussen haakjes |
+|---|---|---|
+| Leerjaar 3 | Age 14–15 | (Year 10 / Grade 9) |
+| Leerjaar 3 en 4 samen (groep "Basics") | Basics · Age 14–16 | (Year 10–11 / Grade 9–10) |
+| Leerjaar 4 (nog niet apart in de pilot) | Age 15–16 | (Year 11 / Grade 10) |
+| Leerjaar 5 (nog niet in de pilot) | Age 16–17 | (Year 12 / Grade 11) |
+| Leerjaar 6 (nog niet in de pilot) | Age 17–18 | (Year 13 / Grade 12) |
+
+Opmaak van het kleine stuk: CSS-klasse `.jaar-klein` (14 px, dus ruim boven 10 pt; kleur #111111; niet grijs). De NL-site van de pilot is ongewijzigd.
+
+Eerder voorstel (vervangen): "Year 10 · age 14–15 · US Grade 9". Terugzetten kan met de git-tag `voor-leeftijdslabels`.
 
 Dit is mijn voorstel, geen officiële gelijkwaardigheid.
 
