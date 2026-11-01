@@ -23,7 +23,7 @@
 (function () {
   'use strict';
 
-  var WORKER_URL = 'https://school-nakijken.scheikunde-oefenen.workers.dev/';
+  var WORKER_URL = 'https://school-nakijken-en.scheikunde-oefenen.workers.dev/';
   var MAX_PER_VERZOEK = 20;   /* de Worker accepteert er maximaal 20 */
   var MAX_VERZOEKEN = 30;     /* per pagina per bezoek: voorkomt onbedoeld veel aanroepen */
 
